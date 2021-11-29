@@ -1,0 +1,82 @@
+---
+title: "Lab_04 lecture notes"
+author: "Megan Mitchell"
+date: "9/29/2021"
+output: html_document
+---
+
+# example to understand the Anatomy of a Function
+my_fun = function (x, y, print = TRUE)
+{
+if (print) print ("hello!")
+return(x > y)
+}
+
+my_fun
+* curly braces are the functions body
+
+* the name "my_fun" is the function statement
+
+* functions can accept some input, perform some task or calculation, and may or may not return a value
+
+* the function above has 3 arguements
+
+* returns a TRUE or FALSE if x>y or x<y, respectively
+
+* the body of a function is the subenvironment of the global environment
+
+* the function can see the global environment but the global environment cannot see the environment within the 
+function
+
+* if functions depend on variables in global environments, they are not always trasnferabble when sharing codes
+
+*  Do not reference global variables! Use Distinctive names!!
+
+* PRACTICE TO CREATE A FUNCTION*
+install.packages(here)
+
+require(palmerpenguins)
+require(here)
+penguins
+
+save_png_1 = function(image_file)
+{
+hist(penguins$body_mass_g)
+
+image_files = "ugly_histogram.png"
+
+png(
+here("C:/Users/Megan Mitchell/OneDrive - University of Massachusetts/Environmental_Data/image_files"
+
+),
+width = 1200, height = 1000
+)
+dev.off()
+}
+
+
+penguins.csv
+
+* that failed
+
+* change colors with the function "col"
+* main = title, xlab= x axis, ylab= y axis
+
+
+ugh = function(dat_vec, my_title, x_label)
+dat_vec = sample( x = 1:100, size = 1000, replace = TRUE)
+{
+
+hist(
+dat_vec,
+col = "steelblue",
+main = "my_title",
+xlab = x_label)
+}
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown

@@ -1,0 +1,157 @@
+---
+title: "ECO 634 Lab 10"
+author: "Megan Mitchell"
+date: "11/28/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Lab Questions {.tabset .tabset-pills}
+
+
+## CAMPUS CLIMATE SURVEY
+
+Most of my experiences are related to covert racism/discrimination. This is incredibly frustrating because you cannot call out this sort of discrimination the way you can with overt discrimination. I feel if I voice concerns I seem petty and my experiences are not taken seriously because people are not being overt (like using racial slurs) about it. In response to some of my concerns, I've been told that we need to all just "focus on the positive" or I should seek a safe space for students like me (students of color). The problem here is that the people who unconsciously or consciously perpetuate these traumas are absent from these spaces; they are free from feeling they need to run and hide to a safe space because the campus as a whole is a safe space for white students and the nooks and crannies are for the "other students".  These attitudes usually originates from my peers, which is surprising and such a let down. Did Trump literally ruin most white millennials and Gen Z? 
+Some of my experiences are unwelcoming environments and total silence when making suggestions to improve DEI but this environment does not happen when white peers voice concerns.  In fact, they are applauded for having DEI conversations whereas I feel condemned. Being expected to work 10x harder than my peers but sometimes I just want to be an average student. Being told how "fortunate" or "lucky" I am for being where I am whereas my white counterparts are not constantly reminded about how grateful they should be. Argumentative or disregarding comments from people following comments/statements/views I make. Being taken more serious when a white student, usually male, agrees with my opinion/statement.  When entering a common space, people tend to flee away from me and flock together (makes me feel like a crocodile among alligators). Comments relating to personal appearance because I don't look like a 1950s scientist. Comments related to graduate school preparedness or lack of based upon age and having a Masters degree prior to PhD. Not being invited to private but graduate program based events where literally every other student in the grad program is invited. Being ignored on social media platforms but this silence does not occur when other students use the same media platform. ALWAYS being referred to a BIPOC/minority/marginalized person before being referred to as a scientist/graduate student/peer, this is so tokenizing. Also, its very annoying how my experiences are compared to every other non-white male group of people as if we all face the same racial climate. Women and BIPOC? How do you compare white women to Asian, Latina, or Multiracial and Black women? The stereotypes between Asian people and Black people in academia differ, as well as the stereotypes between Black Americans and Black Africans in academia. Carefully considering attitudes associated with different racial identities will go along way to help improve social justice on campus because this type of categorization ignores the very different experiences people have in higher education. I am always frustrated with myself because I allow these experiences to interfere with my work and productivity but will hopefully learn to tune this out more. Still, I really believe in UMass and know our community can do better if we work together. 
+
+
+## Q1 
+
+Submit the code you used to build your ANOVA by hand. Make sure you use the code template so that you use the same variable names as those which I’ll use for the grading.
+    
+    rm(list = ls())
+    setwd("C:/Users/Megan Mitchell/OneDrive - University of Massachusetts/Environmental_Data/ECO_634_Data")
+    
+    rope = read.csv("rope.csv")
+    rope$rope.type = factor(rope$rope.type)
+    levels(rope$rope.type)                       
+
+  ## TSS  
+  
+    n_obs = nrow(rope)
+    n_groups = length(levels(rope$rope.type))
+    ss_tot = sum((rope$p.cut - mean(rope$p.cut))^2)
+    df_tot = n_obs - 1
+    ss_tot 
+
+  ## Within group SS
+    
+    agg_resids = aggregate(
+      x = rope$p.cut,
+      by = list(rope$rope.type),
+      FUN = function(x) (x - mean(x)))
+    str(agg_resids)
+    
+    agg_sq_resids = aggregate(
+      x = rope$p.cut,
+      by = list(rope$rope.type),
+      FUN = function(x) sum((x - mean(x))^2))
+    str(agg_sq_resids)
+    
+    ss_within = sum(agg_sq_resids$x)
+   
+    df_within = (n_obs - n_groups)
+ 
+  ## Partioning Variance: Among Groups
+    
+    ss_among = (ss_tot - ss_within)
+    df_among = n_groups - 1
+    
+  ## Normalizing: Mean Squares                      
+  
+    ms_within = ss_within / (n_obs - n_groups)
+    ms_among  = ss_among / (n_groups - 1)
+
+  ## The Test Statistic: F
+    
+    f_ratio = ms_among/ ms_within
+    f_pval = 1 - pf(f_ratio, df_among, df_within, lower.tail = TRUE, log.p = FALSE)   
+
+  
+  ## ANOVA in R
+
+    fit_1 = lm(p.cut ~ rope.type, data=rope)
+    anova(fit_1)
+    
+    anova_fit_1 = anova(fit_1)
+    str(anova_fit_1)
+    str(anova_fit_1$"Sum Sq")
+    str(anova_fit_1$`Mean Sq`)
+
+  
+  ### Q1 SELF-TEST
+
+  
+  # number comparison tolerance
+
+    digits_check = 5
+
+  # Build the reference model using R functions
+
+    fit_1 = lm(p.cut ~ rope.type, data=rope)
+    anova(fit_1)
+    anova_fit_1 = anova(fit_1)
+
+    # Check degrees of freedom
+    anova_fit_1$Df == c(df_among, df_within)
+
+  # Check sums of squares
+    round(anova_fit_1$`Sum Sq`, digits = digits_check) == round(c(ss_among, ss_within), digits = digits_check)
+
+  # Check mean squares
+
+    round(anova_fit_1$`Mean Sq`, digits = digits_check) == round(c(ms_among, ms_within), digits = digits_check)
+
+  # Check the F-ratio
+
+    round(anova_fit_1$`F value`[1], digits = digits_check) == round(f_ratio, digits = digits_check)
+
+  # Check the F test statistic p-value
+
+    round(anova_fit_1$`Pr(>F)`[1], digits = digits_check) == round(f_pval, digits = digits_check)
+
+## Q2  
+
+Examine the conditional boxplot in the Partitioning Variance: Within-Group section of the walkthrough. Based on the figure, do you think there are equal variances among the groups?
+
+    Based upon visual inspection of the conditional boxplots, there is not equal variance among group types. This is because the lengths between boxplots differ from one another which suggest more or less variance between groups. For example, the boxplots for the rope types BLAZE, SB, and VEL differ in length from BS, PI, and XTC boxplots.
+
+## Q3  
+
+Conduct a Bartlett test to assess the homogeneity of variances of the percent cut among the rope type groups. Report the p-value.
+    
+    bartlett.test(p.cut ~ rope.type, data = rope)
+    p-value = 0.00143
+
+
+## Q4  
+
+Given your graphical assessment (question 2) and the Bartlett test, do you think an ANOVA-type analysis is appropriate on the raw data? Explain why or why not.
+
+    One-way ANOVA was probaby not an appropriate test for the raw data because this test assumes equal variance among all comparison groups. Based upon visual inspection of the boxplots, it shows the boxplots differed in length which indicates there is not equal variance among groups. Additionally, the p-value from the Bartlett test was >0.05, suggesting we reject the null hypothesis that variances among groups are the same. In sum, one-way ANOVA may not be suitable because analysis of the raw data showed it violated the assumption of homogeneity of variance. 
+
+## Q5  
+
+Which rope type is the base case?
+
+    The Base case is the BLAZE rope type because this is the intercept.
+
+## Q6  
+
+What is the mean percent cut of the base case rope? Show your calculation using value(s) from the model coefficient table.
+
+    36.714 %
+    There are no calculations necessary because BLAZE is the base case (intercept) and everything is relative to the base case.
+    0.36714 * 100 = 36.714 %
+
+## Q7  
+
+What is the mean percent cut rope type XTC? Show your calculation using value(s) from the model coefficient table.
+   
+    26.55 %
+    This value was obtained by adding the base case to the XTC rope cut estimate. 
+    Base case + XTC rope cut estimate = XTC mean percent rope cut
+    0.3614 + -0.10164 = 0.2655 * 100 = 26.55 %

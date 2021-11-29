@@ -1,0 +1,269 @@
+---
+title: "Lab_02"
+author: "Megan Mitchell"
+date: "9/15/2021"
+output: html_document
+---
+
+1. Show the R code you used to create vec_2. :::{.warn} Your code should be a complete and self-contained example. I should be able to paste your code into a fresh R session on my computer and re-create your v'
+
+  n = 12345
+  vec_1 = sample(12, n, replace = TRUE) # you can resuse the numbers, 
+  vec_1 = sample(12, n, replace = FALSE) 
+  head(vec_1)
+  vec_2 <- c(vec_1==3)
+  vec_2
+  head(vec_2)
+  tail(vec_2)
+
+2.Give two reasons why determining which elements in vec_1 have value 3 by visual inspection is a bad idea
+
+* It would be difficult and hard on the eyes to discern this from such a giant data set and could lead to more errors. 
+
+3. Why didn’t you always get the same count of 3 entries each time?
+
+*  Because they are randomly generated integers
+
+4.Considering the different vectors generated each time, explain why using a logical test is a safe way to select entries with a value of 3.
+
+*brackets and dollar signs...
+
+5. Explain why performing logical subsetting is very very bad practice. You may want consider re-usability of code, working with different sized data sets, and sharing code with collaborators.
+
+* logical subsetting is not as useful with large datasets and for sharing codes relative to a function
+* 
+
+6. Provide the code for your modified loop. It must run as a self-contained example on a fresh R session on my computer.
+
+for (i in 1:10)
+{
+print(
+  paste0(
+    "This is loop iteration: ", i))}    
+    
+    
+7. Provide the code for the modified loop that executes n times. It needs to be a self contained example. I should be able to set the value of n and then run your loop on my computer.
+
+for (n in 1:5)
+{
+print(
+  paste0(
+    "This is loop iteration: ", n))}
+    
+
+8. Provide the code you used to create the n, vec_1, and the loop. As always, it should run as a stand-alone example in a fresh R session on my computer.
+
+*   n = 17
+    vec_1 = sample(10, n, replace = TRUE)
+  length(vec_1)
+
+  for (n in 1:17)
+  {
+  print (
+   paste0(
+     "The element of vec_1 at index " , n , " is " , vec_1[n]))
+    }    
+***
+9.
+
+  
+create_and_print_vec = function(n, min, max)
+vec_3 = sample(x= min:max, size=n, replace = TRUE)
+for (i in 1:n) 
+{
+print(
+  paste(
+    "The element of vec at index " , i , "is" , vec_3[i]))
+}
+  
+  
+  
+   length(create_and_print_vec)
+   for (n in 1:20)
+  {
+  print (
+   paste0(
+     "The element of create_and_print_vec at index " , n , " is " , n))
+    }    
+
+***
+for (i in 1:10)
+{
+  print(i)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{
+  # Function body goes here
+}
+
+#
+n = 17
+    vec_1 = sample(10, n, replace = TRUE)
+  length(vec_1)
+
+  for (n in 1:17)
+  {
+  print (
+   paste0(
+     "The element of at index " , n , " is " , ))
+    }    
+
+
+
+
+1.
+#vec_1 = length(n)
+
+for (n in 1:10)
+{
+  print(n)
+}
+
+
+vec_1 = for (n in 1:10)
+{
+  print(paste0("The value of the number is ", n))
+}
+
+
+
+9. Provide the code you used to build your function.
+To receive full credit your code must run without error on a new R session and produce output similar to the examples given in the instructions.
+#
+
+
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+for (i in 1:10)
+{
+  print(i)
+}
+paste0("BLAH", 
+print()
+
+
+
+*** EXTRA NOTES/ UNSURE WHAT THESE CODES WERE FOR
+
+
+
+mat_2<- matrix(vec_4, byrow= TRUE, nrow=4)
+mat_2
+
+vec_4 <- c(1:12)
+names(vec_4) <- c(1:12)
+vec_4
+mat_1<- matrix(vec_4, byrow= TRUE, nrow=3)
+mat_1
+mat_2<- matrix(vec_4, byrow= TRUE, nrow=4)
+mat_2
+
+
+
+my_list_1 <- list(5.2,"five point two",0:5)
+names(my_list_1) <- c("two","one","three")
+my_list_1
+my_list_1[[3]]
+my_list_1[["one"]]
+my_list_1$one
+my_list <- list(my_vector, my_matrix, my_df)
+names(my_list) <- c("vec", "mat", "df")
+my_list
+
+
+
+my_vec = rep(1:3, 5)
+my_vec
+my_bool_vec = rep(3)
+my_bool_vec
+my_vec == my_bool_vec
+data.frame(my_vec == my_bool_vec)
+
+my_bool_vec[my_vec]
+rep(1:3, 5)
+
+
+my_vec[[my_bool_vec]]
+
+names(my_bool_vec) <- rep(3)
+data.frame(my_vec, my_bool_vec)
+
+(-2:2)*3
+
+
+n = 12345
+vec_1 = sample(12, n, replace = TRUE)
+head(vec_1)
+vec_2 <- c(vec_1==3)
+vec_2
+head(vec_2)
+vec_2= 
+vec_1[vec_2]=3
+
+length(vec_1)
+sum(vec_1 == 3)
+n = 10
+vec_1 = sample(12, n, replace = TRUE)
+paste0("Sum of elements with value 3: ", sum(vec_1 == 3))
+
+for (i in 1:10)
+{
+  print(i)
+}
+print(
+  paste0(
+    "This is loop iteration: 1", 
+    sample(10, 1)))
+    
+ 
+for (i in c(3,6,77))
+{
+print(i)
+}
+
+for(i in rep)
+{
+
+print(i)
+
+}
+
+

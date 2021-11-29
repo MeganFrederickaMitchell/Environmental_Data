@@ -1,0 +1,56 @@
+---
+title: "ECO_634_Lab_notes_10_20_2021"
+author: "Megan Mitchell"
+date: "10/20/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+*# These lecture notes from lab are meant to help deal with "code chunks" in R
+
+* A code chunk is text in an R document that has some special symbols and are usually in this curly brackets, code chunks are usually in inches (default unit)
+
+*Code chunks let you put code and outputs into an R Markdown document
+
+* Remeber that "#" is first level header, "##" is second level header, and so on
+
+* give the chunk a name, to show or hide your code you have to use ..... echo = TRUE (code shows up, not hidden). echo= FALSE ( hides code in document, although output might show up)
+
+* you can set plotting options
+
+* figure height and width: fig.width=5
+
+* figure aspect ratio= fig.asp (HEIGHT/WIDTH) if aspect is less than one, you get a square plot
+
+       { r load_penguin_data, echo= TRUE, eval = TRUE}
+       require(palmerpenguins)
+      head(penguins)
+
+      {r simple pairplot, fig.width=4, fig.asp= 1/1.5}
+      plot(penguins[, 3:5])
+
+
+       {r simple pairplot, echo= FALSE}
+      plot(penguins[, 3:5])
+
+* tabsets help you organize distinct entities that are related to one another, type in "{.tabset} or {.tabset-pills} --> tabset example {.tabset}
+
+# Different Penguin Plots {.tabset .tabset-pills}
+
+* The following tabs contain different plot types
+
+## Histogram (Flipper Length)
+
+{r flipper length histogram, fig.asp = 1, fig.asp = 1/1.5}
+hist(penguins$flipper_length_mm)
+
+## Histogram (Bill length)
+
+{r bill length histogram,  fig.asp = 1, fig.asp = 1/1.5, echo = FALSE}
+hist(penguins$bill_length_mm)
+
+
