@@ -1,0 +1,12 @@
+---
+title: "Megan's project home page"
+author: "Megan Mitchell"
+date: "11/28/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Welcome to Megan's Page!
