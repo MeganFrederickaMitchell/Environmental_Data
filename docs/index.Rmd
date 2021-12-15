@@ -1,7 +1,7 @@
 ---
 title: "Megan's project home page"
 author: "Megan Mitchell"
-date: "11/28/2021"
+date: "12/16/2021"
 output: html_document
 ---
 
@@ -10,4 +10,5 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 Welcome to Megan's Page!
+
 [Final Project: R Reference Guide](final_R_reference.html) 
