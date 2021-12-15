@@ -1,0 +1,225 @@
+---
+title: "ECO634 Final part 2"
+author: "Megan Mitchell"
+date: "12/16/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Part 2: Data Analysis {.tabset .tabset-pills}
+
+## Plots, summaries, and test for Q1-Q4
+```{r fig.width=10, fig.height=8}
+require(here)
+delo = data.frame(read.csv(here("data", "delomys.csv")))
+
+summary(delo$body_mass)
+
+summary(delo$body_length)
+
+shapiro.test(delo$body_mass)
+
+shapiro.test(delo$body_length)
+ 
+
+plot(delo$body_mass, delo$body_length, main = "Delomys body mass vs body length",
+     xlab = "body mass", ylab = "body length", col = "deeppink4", pch = 3)
+
+hist(delo$body_mass, main = "Delomys body mass", xlab = "body mass", col = "maroon4", breaks = 30)
+
+hist(delo$body_length, main = "Delomys body length", xlab = "body length", col = "purple", breaks = 30)
+
+boxplot(body_mass ~ binomial, data = delo, main = "Delomys body mass conditioned by species", 
+        xlab = "species", ylab = "body mass", col = c("dodgerblue", "goldenrod1"))
+
+boxplot(body_mass ~ sex, data = delo, main = "Delomys body mass conditioned by sex", 
+        xlab = "sex", ylab = "body mass", col = c("darkorchid2", "cadetblue"))
+
+boxplot(body_mass ~ sex + binomial, data = delo, main = "Delomys conditioned by both sex and species", 
+        xlab = "species and sex", ylab = "body mass", col = rainbow(ncol(delo)))
+
+```
+
+## Q1
+
+* Qualitatively describe the relationship between body mass and length. Does the relationship seem linear, curved, nonexistent?
+
+#### Qualitatively, the relationship between Delomys body mass and length seems somewhat linear with a positve slope. This is because the line seems to move upwards when going from left to right, suggesting there is a positive relationship between body length and body mass.
+
+## Q2
+
+* Qualitatively describe the shapes of the histograms.Do the data appear normally-distributed? Explain why or why not?
+
+#### Qualitatively, the histogram of Delomys body mass seems somewhat normally distribted with most data points falling in the center of the plot although it is somewhat skewed to the left. In contrast, Delomys body length is very left skewed as most data seems to be clustered at the left of the plot. Both plots show a somewhat bell shape although body mass is more normally distributed relative to body length.
+
+
+## Q3
+
+Using both the histograms and normality tests, do you think the (unconditioned) body masses and body length are normally-distributed?
+
+#### No, body mass and body length are not normally distributed based on the normality test and histograms. The shapiro-Wilk test generated very low p-values for both body length and body mass. There is not evidence to support the null hypothesis that data is normally distrubed because of the low p-values and skewed shapes of the histogram.
+
+## Q4
+
+Examine the conditional boxplots. Describe any graphical evidence you see for body mass differences based on species and/or sex.
+
+#### Based on the boxplot of body mass conditioned by species, Delomys dorsalis has larger body mass relative to Delomys sublineatus. Boxplots also show that males (45-48 grams) tend to have slightly higher body mass relative to females (40-43 grams). When conditioned by both species and sex, Delomys dorsalis (female and males) are larger than Delomys sublineatus (females and males) although males are generally larger than females.
+
+
+## Models 1-5 for Q5-Q6
+
+``` {r}
+
+fit1 = lm(
+  formula = body_length ~ body_mass,
+  data = delo)
+
+fit2= lm(
+  formula = body_mass ~ sex, 
+  data = delo)
+
+fit3= lm(
+  formula = body_mass ~ binomial, 
+  data = delo)
+
+fit4= lm(
+  formula = body_mass ~ sex + binomial, 
+  data = delo)
+
+fit5= lm(
+  formula = body_mass ~ sex * binomial, 
+  data = delo)
+
+shapiro.test(residuals(fit1))
+shapiro.test(residuals(fit2))
+shapiro.test(residuals(fit3))
+shapiro.test(residuals(fit4))
+shapiro.test(residuals(fit5))
+
+par(mfrow=c(3,2))
+hist(residuals(fit1), main = "Model 1: Delomys bodylength conditioned by bodymass", xlab = "residuals", col = "goldenrod1")
+hist(residuals(fit2), main = "Model 2: Delomys bodymass conditioned by sex", xlab = "residuals", col = "cadetblue")
+hist(residuals(fit3), main = "Model 3: Delomys bodymass conditioned by species", xlab = "residuals", col = "palevioletred")
+hist(residuals(fit4), main = "Model 4: Delomys bodymass conditioned by sex & species", xlab = "residuals", col = "deeppink1")
+hist(residuals(fit5), main = "Model 5: Delomys bodymass conditioned by sex & species", xlab = "residuals", col = "purple")
+
+```
+
+## Q5
+
+What do you conclude about residual normality based on the numerical and graphical diagnostics?
+
+####  From the histograms, residuals appear normally distributed in models 2-5 as data is centered in the middle of the plots and they are bell shaped. Model 1 does not appear normally distributed, as data is clustered to the left of the plot. Based on the numerical diagnositics, p-values were all far below 0.05 suggesting there is not evidence to support the null hypothesis that residuals are normally distributed. 
+
+## Q6
+
+Are violations of the normality assumption equally severe for all the models?
+
+#### Violations of the normality assumption are not equally severe across all of the models although every model had a p-value below 0.05 and thus violated the normality assumption. Model 2 had the largest p-value (0.0001541) whereas model 3-5 had p-values in the 10^-5 magnitude. Model 1 violated the normality assumption most severely as the p-value was in the 10^-16 magnitude. 
+
+## Model Coefficeint table for Q7-Q9
+```{r}
+
+knitr::kable(coef(summary(fit1)))
+
+```
+
+## Q7
+
+What is the magnitude of the mass/length relationship?
+
+#### The magnitude of the mass/length relationship is 0.875.
+
+## Q8
+
+What is the expected body length of an an animal that weighs 100g?
+
+#### The expected body length of an animal that weighs 100 gs is 163.67453. This was calculated by multiplying body mass by 100g and adding this to the intercept, which is 76.12465.
+
+## Q9
+
+What is the expected body length of an animal that weighs 0g?
+
+#### The expected body length for an animal that weights 0g is 76.124, which is the intercept. This was calculated by multiplying body mass by 0g and adding this value to the intercept.
+
+## Model Coefficient table for Q10-Q13.
+```{r}
+knitr::kable(coef(summary(fit2)))
+knitr::kable(coef(summary(fit3)))
+knitr::kable(coef(summary(fit4)))
+knitr::kable(coef(summary(fit5)))
+```
+## Q10
+
+What is the base level for sex?
+
+#### Based on model 2,4, and 5, the base level (intercept) for sex is female.
+
+## Q11
+
+What is the base level for binomial?
+
+#### Based on model 3-5, the base level (intercept) for binomial (species) is Delomys dorsalis.
+
+## Q12
+
+Which sex is heavier?
+
+#### Male Delomys are heavier than female Delomys.
+
+## Q13
+
+Which species is heavier?
+
+#### Delomys dorsalis (the base case) is heavier than Delomys sublineatus.
+
+## ANOVA tables for Q14-Q16
+``` {r}
+knitr::kable(anova(fit1))
+knitr::kable(anova(fit2))
+knitr::kable(anova(fit3))
+knitr::kable(anova(fit4))
+knitr::kable(anova(fit5))
+```
+
+## Q14
+
+Are sex and species significant predictors for body mass?
+
+#### Yes, sex and species are signficant predictors for body mass based upon the p-values generated by the ANOVA table, which were both below 0.05. The p-value for sex (Model 2) was 0.0001951 whereas the p-value for species (Model 3) was 0.
+
+## Q15
+
+Is there a significant interaction?
+
+#### No, there is not a signficant interaction between sex and species at predicting body mass. This is because the p-value was greater than 0.05 (0.950), suggesting this interaction is not signficant. 
+
+## Q16
+
+How does the significance (as measured by p-value) of either of the main effects (sex and species) differ between the single-predictor models, the additive model, and the interactive model?
+
+#### The signficance as measured by the p-value varied across the models. In the single-predictor models and additive models, the p-values were all below 0.05 suggesting the main effects were significant predictors for body mass. In contrast, the interactive model showed no signficant interaction between both species and sex as the p-value was greater than 0.05. 
+
+## AIC values for Q17-Q18.
+```{r}
+AIC(fit1)
+AIC(fit2)
+AIC(fit3)
+AIC(fit4)
+AIC(fit5)
+
+```
+## Q17
+
+Which two models have the lowest AIC?
+
+#### Models 1 and Models 4 have the lowest AIC values, which are 12291.67 and 12896.73, respectively.
+
+## Q18
+
+Which of the two models with lowest AIC scores would you select? Explain your decision based on model fit and the complexity/understanding tradeoff.
+
+#### I would choose Model 4, which had a lower AIC score relative to Models 2,Models 3, and Models 5 although the AIC score for Model 4 was higher than Model 1. In addition to having a low AIC score, Model 4 is a more complex model than Model 1. As model complexity increases, goodness of fit increases and unexplained variation in the model decreases. However, there is a tradeoff in choosing Model 4 over Model 1. Increasing model complexity reduces the interpretiblity of the model and more complex models may draw correlations between dissimilar things. Model 1 is a simple model that is easier to interpret but has more unexplained variation based upon the histogram and shapiro.wilk normality test. 

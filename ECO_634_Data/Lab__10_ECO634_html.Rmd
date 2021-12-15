@@ -1,8 +1,9 @@
 ---
-title: "ECO 634 Lab 10"
+title: "Lab_10_html"
 author: "Megan Mitchell"
 date: "11/28/2021"
 output: html_document
+---
 ---
 
 ```{r setup, include=FALSE}
@@ -12,16 +13,18 @@ knitr::opts_chunk$set(echo = TRUE)
 # Lab Questions {.tabset .tabset-pills}
 
 
-
-
 ## Q1 
 
 Submit the code you used to build your ANOVA by hand. Make sure you use the code template so that you use the same variable names as those which I’ll use for the grading.
     
     rm(list = ls())
-    setwd("C:/Users/Megan Mitchell/OneDrive - University of Massachusetts/Environmental_Data/ECO_634_Data")
     
-    rope = read.csv("rope.csv")
+    require(here)
+    
+    here()
+    
+    rope = read.csv(here("rope.csv"))
+    
     rope$rope.type = factor(rope$rope.type)
     levels(rope$rope.type)                       
 
@@ -151,3 +154,10 @@ What is the mean percent cut rope type XTC? Show your calculation using value(s)
     This value was obtained by adding the base case to the XTC rope cut estimate. 
     Base case + XTC rope cut estimate = XTC mean percent rope cut
     0.3614 + -0.10164 = 0.2655 * 100 = 26.55 %
+    
+    
+    
+    
+    
+    
+    

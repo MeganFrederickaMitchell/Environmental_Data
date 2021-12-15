@@ -3,9 +3,9 @@
 ## start here
 
 rm(list = ls())
-setwd("C:/Users/Megan Mitchell/OneDrive - University of Massachusetts/Environmental_Data/ECO_634_Data")
+require(here)
 
-rope = read.csv("rope.csv")
+rope = read.csv (here("rope.csv"))
 rope$rope.type = factor(rope$rope.type)
 levels(rope$rope.type)                       
 
