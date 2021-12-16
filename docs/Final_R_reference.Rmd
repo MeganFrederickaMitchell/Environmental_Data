@@ -1,10 +1,10 @@
 ---
-title: "ECO 602 Final Project P1"
+title: "Final Project: R Reference Guide"
 author: "Megan Mitchell"
 date: "12/16/2021"
 output: html_document
 ---
-# R Reference Guide {.tabset .tabset-pills}
+# Final Project: R Reference Guide {.tabset .tabset-pills}
 
 
 ## Loading Data and Packages
